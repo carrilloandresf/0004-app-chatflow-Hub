@@ -103,6 +103,71 @@
         .chart-bar:hover {
             opacity: 0.8;
         }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background-color: #f3f4f6;
+            color: #374151;
+        }
+
+        .status-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 9999px;
+        }
+
+        .kanban-column {
+            background: #f9fafb;
+            border-radius: 1rem;
+            border: 1px dashed #e5e7eb;
+            min-height: 18rem;
+        }
+
+        .kanban-card {
+            border-radius: 1rem;
+            border: 1px solid #e5e7eb;
+            background: white;
+            transition: all 0.2s ease;
+        }
+
+        .kanban-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -15px rgba(15, 23, 42, 0.25);
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 1.125rem;
+            top: 0.75rem;
+            bottom: 0.75rem;
+            width: 2px;
+            background: linear-gradient(180deg, rgba(59,130,246,0.2) 0%, rgba(37,211,102,0.3) 100%);
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.15rem 0.65rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            background-color: #eef2ff;
+            color: #4338ca;
+        }
+
+        .table-header {
+            text-transform: uppercase;
+            font-size: 0.68rem;
+            letter-spacing: 0.05em;
+            color: #9ca3af;
+        }
     </style>
 </head>
 <body class="h-full bg-gray-50">
@@ -124,7 +189,7 @@
             
             <!-- Navigation -->
             <nav class="flex-1 p-4 space-y-2">
-                <a href="#" class="sidebar-item active flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" onclick="showSection('overview')">
+                <a href="#" data-section="overview" class="sidebar-item active flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" onclick="showSection('overview', this); return false;">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"/>
@@ -132,7 +197,7 @@
                     <span class="font-medium">Inicio / Overview</span>
                 </a>
                 
-                <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" onclick="showSection('live-chat')">
+                <a href="#" data-section="live-chat" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" onclick="showSection('live-chat', this); return false;">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                     </svg>
@@ -140,42 +205,42 @@
                     <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full ml-auto">3</span>
                 </a>
                 
-                <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" onclick="showSection('orders')">
+                <a href="#" data-section="orders" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" onclick="showSection('orders', this); return false;">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                     </svg>
                     <span class="font-medium">Pedidos</span>
                 </a>
                 
-                <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" onclick="showSection('reservations')">
+                <a href="#" data-section="reservations" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" onclick="showSection('reservations', this); return false;">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
                     <span class="font-medium">Reservas</span>
                 </a>
                 
-                <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" onclick="showSection('templates')">
+                <a href="#" data-section="templates" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" onclick="showSection('templates', this); return false;">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
                     <span class="font-medium">Plantillas</span>
                 </a>
                 
-                <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" onclick="showSection('clients')">
+                <a href="#" data-section="clients" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" onclick="showSection('clients', this); return false;">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"/>
                     </svg>
                     <span class="font-medium">Clientes</span>
                 </a>
                 
-                <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" onclick="showSection('analytics')">
+                <a href="#" data-section="analytics" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" onclick="showSection('analytics', this); return false;">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                     </svg>
                     <span class="font-medium">Estadísticas</span>
                 </a>
                 
-                <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" onclick="showSection('settings')">
+                <a href="#" data-section="settings" class="sidebar-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-700" onclick="showSection('settings', this); return false;">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -443,72 +508,1107 @@
                 </div>
                 
                 <!-- Other Sections (Hidden by default) -->
-                <div id="live-chat-section" class="hidden">
-                    <div class="minimal-card p-8 text-center">
-                        <h3 class="text-2xl font-light text-gray-900 mb-4">Chat en Vivo</h3>
-                        <p class="text-gray-600 mb-8">Gestiona conversaciones activas y responde a tus clientes en tiempo real</p>
-                        <div class="bg-gray-50 rounded-lg p-8">
-                            <p class="text-gray-500">Funcionalidad de chat en vivo próximamente...</p>
+                <div id="live-chat-section" class="hidden space-y-6">
+                    <div class="grid xl:grid-cols-4 gap-6">
+                        <!-- Conversations List -->
+                        <div class="xl:col-span-1 minimal-card overflow-hidden">
+                            <div class="p-6 border-b border-gray-200">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-lg font-semibold text-gray-900">Conversaciones activas</h3>
+                                    <span class="status-badge"><span class="status-dot bg-red-500"></span> SLA 2 min</span>
+                                </div>
+                                <div class="mt-4 flex items-center space-x-2 text-xs text-gray-500">
+                                    <span class="tag bg-green-50 text-green-600">Pedidos</span>
+                                    <span class="tag bg-blue-50 text-blue-600">Reservas</span>
+                                    <span class="tag bg-amber-50 text-amber-600">Seguimiento</span>
+                                </div>
+                            </div>
+                            <div class="divide-y divide-gray-100">
+                                <div class="px-6 py-4 hover:bg-gray-50 cursor-pointer flex items-start">
+                                    <div class="w-10 h-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center font-semibold">AL</div>
+                                    <div class="ml-3 flex-1">
+                                        <div class="flex justify-between">
+                                            <h4 class="font-semibold text-gray-900">Ana López</h4>
+                                            <span class="text-xs text-gray-400">09:24</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600">¿Pueden confirmar mi pedido #4589?</p>
+                                        <div class="mt-2 flex items-center space-x-2 text-xs">
+                                            <span class="status-badge"><span class="status-dot bg-yellow-400"></span>En espera</span>
+                                            <span class="tag bg-green-50 text-green-600">Pedidos</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="px-6 py-4 hover:bg-gray-50 cursor-pointer flex items-start bg-gray-50">
+                                    <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center font-semibold">CR</div>
+                                    <div class="ml-3 flex-1">
+                                        <div class="flex justify-between">
+                                            <h4 class="font-semibold text-gray-900">Carlos Rivas</h4>
+                                            <span class="text-xs text-gray-400">08:57</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600">Necesito reagendar la reserva para hoy.</p>
+                                        <div class="mt-2 flex items-center space-x-2 text-xs">
+                                            <span class="status-badge"><span class="status-dot bg-green-500"></span>Asignado</span>
+                                            <span class="tag bg-blue-50 text-blue-600">Reservas</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="px-6 py-4 hover:bg-gray-50 cursor-pointer flex items-start">
+                                    <div class="w-10 h-10 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center font-semibold">JG</div>
+                                    <div class="ml-3 flex-1">
+                                        <div class="flex justify-between">
+                                            <h4 class="font-semibold text-gray-900">Julieta Gómez</h4>
+                                            <span class="text-xs text-gray-400">08:45</span>
+                                        </div>
+                                        <p class="text-sm text-gray-600">El repartidor aún no llega, ¿pueden verificar?</p>
+                                        <div class="mt-2 flex items-center space-x-2 text-xs">
+                                            <span class="status-badge"><span class="status-dot bg-blue-500"></span>Seguimiento</span>
+                                            <span class="tag bg-amber-50 text-amber-600">Logística</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat Panel -->
+                        <div class="xl:col-span-2 minimal-card overflow-hidden">
+                            <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Carlos Rivas</h3>
+                                    <p class="text-sm text-gray-500">WhatsApp • Cliente con 4 pedidos previos</p>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="status-badge"><span class="status-dot bg-green-500"></span>Respuesta en 1m</span>
+                                    <button class="minimal-button text-sm text-whatsapp font-semibold">Ver historial</button>
+                                </div>
+                            </div>
+                            <div class="p-6 space-y-6 bg-gray-50 h-96 overflow-y-auto">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-9 h-9 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-sm font-semibold">CR</div>
+                                    <div class="max-w-lg">
+                                        <div class="bg-white rounded-2xl px-4 py-3 shadow-sm">
+                                            <p class="text-sm text-gray-700">Hola, necesito reagendar mi reserva de hoy a las 21:00 por favor.</p>
+                                        </div>
+                                        <span class="text-xs text-gray-400 mt-1 block">08:55</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start justify-end space-x-3">
+                                    <div class="max-w-lg text-right">
+                                        <div class="bg-whatsapp text-white rounded-2xl px-4 py-3 shadow-sm">
+                                            <p class="text-sm">¡Hola Carlos! Con gusto, tengo disponibilidad a las 22:00. ¿Te funciona ese horario?</p>
+                                        </div>
+                                        <span class="text-xs text-gray-400 mt-1 block">08:57</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-9 h-9 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center text-sm font-semibold">CR</div>
+                                    <div class="max-w-lg">
+                                        <div class="bg-white rounded-2xl px-4 py-3 shadow-sm">
+                                            <p class="text-sm text-gray-700">Perfecto, confirmemos a las 22:00 para 4 personas.</p>
+                                        </div>
+                                        <span class="text-xs text-gray-400 mt-1 block">08:58</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start justify-end space-x-3">
+                                    <div class="max-w-lg text-right">
+                                        <div class="bg-white border border-whatsapp rounded-2xl px-4 py-3 shadow-sm">
+                                            <p class="text-sm text-gray-700">Reserva actualizada ✅</p>
+                                            <p class="text-xs text-gray-500 mt-1">Referencia: RES-9472</p>
+                                        </div>
+                                        <span class="text-xs text-gray-400 mt-1 block">08:59</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-6 border-t border-gray-200 bg-white">
+                                <div class="flex items-center space-x-3">
+                                    <button class="p-3 bg-gray-100 rounded-xl text-gray-500 hover:text-gray-700">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6-6m2 2L9 17H5v-4l6-6z"/>
+                                        </svg>
+                                    </button>
+                                    <input type="text" placeholder="Escribe una respuesta profesional..." class="flex-1 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-whatsapp"/>
+                                    <button class="px-5 py-3 bg-whatsapp text-white rounded-xl font-medium minimal-button">Enviar</button>
+                                </div>
+                                <div class="mt-3 flex items-center justify-between text-xs text-gray-500">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="status-badge"><span class="status-dot bg-blue-500"></span>Notas internas</span>
+                                        <span class="status-badge"><span class="status-dot bg-amber-400"></span>Escalar</span>
+                                    </div>
+                                    <span>Tiempo restante SLA: 07:22 min</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Customer Insights -->
+                        <div class="xl:col-span-1 minimal-card p-6 space-y-6">
+                            <div>
+                                <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Resumen del cliente</h3>
+                                <div class="mt-4 space-y-3 text-sm text-gray-600">
+                                    <div class="flex justify-between"><span>Valor promedio ticket</span><span class="font-semibold text-gray-900">$42.800</span></div>
+                                    <div class="flex justify-between"><span>Último pedido</span><span>Hace 12 días</span></div>
+                                    <div class="flex justify-between"><span>Canal preferido</span><span>WhatsApp</span></div>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Checklist de conversación</h3>
+                                <ul class="mt-4 space-y-3 text-sm text-gray-600">
+                                    <li class="flex items-start space-x-3">
+                                        <span class="status-dot bg-green-500 mt-1"></span>
+                                        <div>
+                                            <p class="font-medium text-gray-900">Datos confirmados</p>
+                                            <p>Se validó fecha, horario y número de asistentes.</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start space-x-3">
+                                        <span class="status-dot bg-blue-500 mt-1"></span>
+                                        <div>
+                                            <p class="font-medium text-gray-900">Oportunidad de venta</p>
+                                            <p>Ofrecer menú degustación + botella especial.</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-start space-x-3">
+                                        <span class="status-dot bg-amber-400 mt-1"></span>
+                                        <div>
+                                            <p class="font-medium text-gray-900">Seguimiento programado</p>
+                                            <p>Recordatorio automático 4 horas antes.</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Notas internas</h3>
+                                <div class="mt-3 bg-gray-50 rounded-xl p-4 text-sm text-gray-600 space-y-2">
+                                    <p>• Cliente VIP con reseñas destacadas.</p>
+                                    <p>• Prefiere mesas terraza, asignar host Mariana.</p>
+                                    <p>• Confirmar postre especial de cortesía.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <div id="orders-section" class="hidden">
-                    <div class="minimal-card p-8 text-center">
-                        <h3 class="text-2xl font-light text-gray-900 mb-4">Gestión de Pedidos</h3>
-                        <p class="text-gray-600 mb-8">Administra pedidos con estados: pendiente, en preparación, entregado</p>
-                        <div class="bg-gray-50 rounded-lg p-8">
-                            <p class="text-gray-500">Sistema de pedidos próximamente...</p>
+
+                <div id="orders-section" class="hidden space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                        <div class="minimal-card p-6">
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm text-gray-500">Pedidos activos</p>
+                                <span class="status-badge"><span class="status-dot bg-green-500"></span>+18%</span>
+                            </div>
+                            <p class="text-3xl font-semibold text-gray-900 mt-2">124</p>
+                            <p class="text-xs text-gray-500 mt-2">Promedio ciclo: 36 min</p>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm text-gray-500">Pedidos con incidencias</p>
+                                <span class="status-badge"><span class="status-dot bg-amber-400"></span>5 en curso</span>
+                            </div>
+                            <p class="text-3xl font-semibold text-gray-900 mt-2">9</p>
+                            <p class="text-xs text-gray-500 mt-2">Tiempo promedio resolución: 14 min</p>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm text-gray-500">Valor procesado</p>
+                                <span class="status-badge"><span class="status-dot bg-blue-500"></span>Hoy</span>
+                            </div>
+                            <p class="text-3xl font-semibold text-gray-900 mt-2">$5.48M</p>
+                            <p class="text-xs text-gray-500 mt-2">Ticket promedio: $44.190</p>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm text-gray-500">SLA de entregas</p>
+                                <span class="status-badge"><span class="status-dot bg-purple-500"></span>Objetivo 92%</span>
+                            </div>
+                            <p class="text-3xl font-semibold text-gray-900 mt-2">95.3%</p>
+                            <p class="text-xs text-gray-500 mt-2">Últimas 24 horas</p>
+                        </div>
+                    </div>
+
+                    <div class="grid xl:grid-cols-5 gap-6">
+                        <div class="xl:col-span-1 kanban-column p-5 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-semibold text-gray-900">Nuevos</h4>
+                                <span class="text-xs text-gray-400">12</span>
+                            </div>
+                            <div class="kanban-card p-4 space-y-3">
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>#4621 • WhatsApp</span>
+                                    <span>09:10</span>
+                                </div>
+                                <p class="font-semibold text-gray-900">Combo brunch x3</p>
+                                <div class="flex items-center justify-between text-xs text-gray-500">
+                                    <span>Cliente nuevo</span>
+                                    <span class="status-badge"><span class="status-dot bg-amber-400"></span>Pago pendiente</span>
+                                </div>
+                            </div>
+                            <div class="kanban-card p-4 space-y-3">
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>#4622 • Chatbot</span>
+                                    <span>09:12</span>
+                                </div>
+                                <p class="font-semibold text-gray-900">Menú ejecutivo</p>
+                                <div class="flex items-center justify-between text-xs text-gray-500">
+                                    <span>Entrega 12:00</span>
+                                    <span class="status-badge"><span class="status-dot bg-blue-500"></span>Validando stock</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="xl:col-span-1 kanban-column p-5 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-semibold text-gray-900">Confirmados</h4>
+                                <span class="text-xs text-gray-400">22</span>
+                            </div>
+                            <div class="kanban-card p-4 space-y-3">
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>#4614 • App móvil</span>
+                                    <span>08:35</span>
+                                </div>
+                                <p class="font-semibold text-gray-900">Pedido corporativo</p>
+                                <div class="flex items-center justify-between text-xs text-gray-500">
+                                    <span>Entrega 11:30</span>
+                                    <span class="status-badge"><span class="status-dot bg-green-500"></span>Prep. asignada</span>
+                                </div>
+                            </div>
+                            <div class="kanban-card p-4 space-y-3">
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>#4619 • WhatsApp</span>
+                                    <span>08:50</span>
+                                </div>
+                                <p class="font-semibold text-gray-900">Repostería vegana</p>
+                                <div class="flex items-center justify-between text-xs text-gray-500">
+                                    <span>Retiro en tienda</span>
+                                    <span class="status-badge"><span class="status-dot bg-purple-500"></span>Asignar rider</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="xl:col-span-1 kanban-column p-5 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-semibold text-gray-900">En preparación</h4>
+                                <span class="text-xs text-gray-400">31</span>
+                            </div>
+                            <div class="kanban-card p-4 space-y-3">
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>#4607 • Kiosco</span>
+                                    <span>08:10</span>
+                                </div>
+                                <p class="font-semibold text-gray-900">Menu Kids party</p>
+                                <div class="flex items-center justify-between text-xs text-gray-500">
+                                    <span>Chef Laura</span>
+                                    <span class="status-badge"><span class="status-dot bg-blue-500"></span>Check QA</span>
+                                </div>
+                            </div>
+                            <div class="kanban-card p-4 space-y-3">
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>#4609 • WhatsApp</span>
+                                    <span>08:20</span>
+                                </div>
+                                <p class="font-semibold text-gray-900">Catering express</p>
+                                <div class="flex items-center justify-between text-xs text-gray-500">
+                                    <span>Salida 09:45</span>
+                                    <span class="status-badge"><span class="status-dot bg-amber-400"></span>Alerta SLA</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="xl:col-span-1 kanban-column p-5 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-semibold text-gray-900">Listos para entrega</h4>
+                                <span class="text-xs text-gray-400">18</span>
+                            </div>
+                            <div class="kanban-card p-4 space-y-3">
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>#4598 • Marketplace</span>
+                                    <span>07:58</span>
+                                </div>
+                                <p class="font-semibold text-gray-900">Lunch saludable</p>
+                                <div class="flex items-center justify-between text-xs text-gray-500">
+                                    <span>Ruta 3</span>
+                                    <span class="status-badge"><span class="status-dot bg-green-500"></span>Despacho 09:30</span>
+                                </div>
+                            </div>
+                            <div class="kanban-card p-4 space-y-3">
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>#4601 • WhatsApp</span>
+                                    <span>08:00</span>
+                                </div>
+                                <p class="font-semibold text-gray-900">Caja celebración</p>
+                                <div class="flex items-center justify-between text-xs text-gray-500">
+                                    <span>Recoge cliente</span>
+                                    <span class="status-badge"><span class="status-dot bg-purple-500"></span>Notificar retiro</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="xl:col-span-1 kanban-column p-5 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-semibold text-gray-900">En ruta / Cerrados</h4>
+                                <span class="text-xs text-gray-400">41</span>
+                            </div>
+                            <div class="kanban-card p-4 space-y-3">
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>#4588 • App móvil</span>
+                                    <span>07:20</span>
+                                </div>
+                                <p class="font-semibold text-gray-900">Gourmet box x2</p>
+                                <div class="flex items-center justify-between text-xs text-gray-500">
+                                    <span>Rider Javier</span>
+                                    <span class="status-badge"><span class="status-dot bg-green-500"></span>Entregado</span>
+                                </div>
+                            </div>
+                            <div class="kanban-card p-4 space-y-3">
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>#4591 • WhatsApp</span>
+                                    <span>07:45</span>
+                                </div>
+                                <p class="font-semibold text-gray-900">Desayuno corporativo</p>
+                                <div class="flex items-center justify-between text-xs text-gray-500">
+                                    <span>Feedback pendiente</span>
+                                    <span class="status-badge"><span class="status-dot bg-blue-500"></span>Solicitar reseña</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 minimal-card p-6 relative">
+                            <div class="flex items-center justify-between mb-6">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Detalle pedido destacado #4609</h3>
+                                    <p class="text-sm text-gray-500">Catering express • Cliente: Grupo Andina • Ticket $312.400</p>
+                                </div>
+                                <div class="status-badge"><span class="status-dot bg-amber-400"></span>Alerta de entrega</div>
+                            </div>
+                            <div class="timeline relative pl-10 space-y-6">
+                                <div class="relative">
+                                    <div class="status-dot bg-green-500 absolute -left-10 top-1.5"></div>
+                                    <div class="bg-gray-50 rounded-xl p-4">
+                                        <div class="flex items-center justify-between text-sm text-gray-500">
+                                            <span>07:55</span>
+                                            <span>Canal WhatsApp</span>
+                                        </div>
+                                        <p class="mt-2 text-gray-800 font-semibold">Pedido confirmado automáticamente</p>
+                                        <p class="text-sm text-gray-600">Pago validado con tarjeta y campos de entrega completos.</p>
+                                    </div>
+                                </div>
+                                <div class="relative">
+                                    <div class="status-dot bg-blue-500 absolute -left-10 top-1.5"></div>
+                                    <div class="bg-gray-50 rounded-xl p-4">
+                                        <div class="flex items-center justify-between text-sm text-gray-500">
+                                            <span>08:10</span>
+                                            <span>Centro de producción</span>
+                                        </div>
+                                        <p class="mt-2 text-gray-800 font-semibold">Preparación iniciada</p>
+                                        <p class="text-sm text-gray-600">Chef Laura asignó a brigada 2 • Checklist 12/15 completado.</p>
+                                    </div>
+                                </div>
+                                <div class="relative">
+                                    <div class="status-dot bg-amber-400 absolute -left-10 top-1.5"></div>
+                                    <div class="bg-gray-50 rounded-xl p-4">
+                                        <div class="flex items-center justify-between text-sm text-gray-500">
+                                            <span>08:42</span>
+                                            <span>Logística</span>
+                                        </div>
+                                        <p class="mt-2 text-gray-800 font-semibold">Solicitar refuerzo</p>
+                                        <p class="text-sm text-gray-600">Volumen supera capacidad estándar. Requiere vehículo adicional.</p>
+                                    </div>
+                                </div>
+                                <div class="relative">
+                                    <div class="status-dot bg-purple-500 absolute -left-10 top-1.5"></div>
+                                    <div class="bg-gray-50 rounded-xl p-4">
+                                        <div class="flex items-center justify-between text-sm text-gray-500">
+                                            <span>09:00</span>
+                                            <span>Atención</span>
+                                        </div>
+                                        <p class="mt-2 text-gray-800 font-semibold">Cliente notificado</p>
+                                        <p class="text-sm text-gray-600">Bot envió actualización con nueva hora de entrega estimada 09:50.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-gray-900">Próximos hitos logísticos</h3>
+                                <span class="text-xs text-gray-400">Hoy</span>
+                            </div>
+                            <div class="space-y-4 text-sm text-gray-600">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-semibold text-gray-900">Ruta Norte - Javier R.</p>
+                                        <p>Salida programada 09:15 • 6 pedidos</p>
+                                    </div>
+                                    <span class="status-badge"><span class="status-dot bg-green-500"></span>A tiempo</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-semibold text-gray-900">Ruta Centro - Paola V.</p>
+                                        <p>Salida programada 09:20 • 8 pedidos</p>
+                                    </div>
+                                    <span class="status-badge"><span class="status-dot bg-amber-400"></span>Revisar</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-semibold text-gray-900">Pick-up en tienda</p>
+                                        <p>Clientes por llegar: 5 • Tiempo espera 6 min</p>
+                                    </div>
+                                    <span class="status-badge"><span class="status-dot bg-blue-500"></span>Recordatorio</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="font-semibold text-gray-900">Inspección calidad</p>
+                                        <p>Lote #289 pendiente firma supervisión</p>
+                                    </div>
+                                    <span class="status-badge"><span class="status-dot bg-purple-500"></span>Necesita aprobación</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <div id="reservations-section" class="hidden">
-                    <div class="minimal-card p-8 text-center">
-                        <h3 class="text-2xl font-light text-gray-900 mb-4">Sistema de Reservas</h3>
-                        <p class="text-gray-600 mb-8">Calendario visual para mesas, espacios, habitaciones y más</p>
-                        <div class="bg-gray-50 rounded-lg p-8">
-                            <p class="text-gray-500">Calendario de reservas próximamente...</p>
+
+                <div id="reservations-section" class="hidden space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                        <div class="minimal-card p-6">
+                            <p class="text-sm text-gray-500">Reservas confirmadas</p>
+                            <p class="text-3xl font-semibold text-gray-900 mt-2">68</p>
+                            <p class="text-xs text-gray-500 mt-2">Capacidad ocupada 74%</p>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <p class="text-sm text-gray-500">Solicitudes por validar</p>
+                            <p class="text-3xl font-semibold text-gray-900 mt-2">12</p>
+                            <p class="text-xs text-gray-500 mt-2">Tiempo medio confirmación 11 min</p>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <p class="text-sm text-gray-500">Clientes recurrentes</p>
+                            <p class="text-3xl font-semibold text-gray-900 mt-2">41</p>
+                            <p class="text-xs text-gray-500 mt-2">+9% vs semana anterior</p>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <p class="text-sm text-gray-500">No-show proyectado</p>
+                            <p class="text-3xl font-semibold text-gray-900 mt-2">3.2%</p>
+                            <p class="text-xs text-gray-500 mt-2">Automatiza recordatorios</p>
+                        </div>
+                    </div>
+
+                    <div class="grid xl:grid-cols-3 gap-6">
+                        <div class="xl:col-span-2 minimal-card p-6">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-semibold text-gray-900">Agenda inteligente del día</h3>
+                                <select class="text-sm border border-gray-300 rounded-lg px-3 py-1">
+                                    <option>Restaurante Central</option>
+                                    <option>Evento Corporativo</option>
+                                    <option>Espacio Cowork</option>
+                                </select>
+                            </div>
+                            <div class="mt-6 grid sm:grid-cols-2 gap-4 text-sm text-gray-600">
+                                <div class="bg-gray-50 rounded-xl p-4 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <p class="font-semibold text-gray-900">Bloque almuerzo</p>
+                                        <span class="status-badge"><span class="status-dot bg-green-500"></span>Cap. 92%</span>
+                                    </div>
+                                    <p>11:30 - 15:00 • 26 reservas</p>
+                                    <p>Mesas dobles al 100% • Terraza disponible</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-xl p-4 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <p class="font-semibold text-gray-900">Bloque cena</p>
+                                        <span class="status-badge"><span class="status-dot bg-amber-400"></span>Cap. 68%</span>
+                                    </div>
+                                    <p>19:00 - 23:30 • 32 reservas</p>
+                                    <p>Priorizar clientes fidelizados y eventos.</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-xl p-4 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <p class="font-semibold text-gray-900">Eventos especiales</p>
+                                        <span class="status-badge"><span class="status-dot bg-blue-500"></span>3 activos</span>
+                                    </div>
+                                    <p>Salon privado reservado 18:00 • Montaje híbrido.</p>
+                                    <p>Asignar equipo audiovisual a las 16:30.</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-xl p-4 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <p class="font-semibold text-gray-900">Lista de espera</p>
+                                        <span class="status-badge"><span class="status-dot bg-purple-500"></span>11 clientes</span>
+                                    </div>
+                                    <p>Mayor demanda 20:00 • Clientes premium x4.</p>
+                                    <p>Enviar opciones alternas + upgrade.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="minimal-card p-6 space-y-5">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-semibold text-gray-900">Reservas próximas</h3>
+                                <span class="text-xs text-gray-400">Próx. 6 horas</span>
+                            </div>
+                            <div class="space-y-4 text-sm text-gray-600">
+                                <div>
+                                    <div class="flex items-center justify-between">
+                                        <p class="font-semibold text-gray-900">Mesa 12 • 5 pax</p>
+                                        <span class="status-badge"><span class="status-dot bg-green-500"></span>Confirmada</span>
+                                    </div>
+                                    <p>13:00 • Laura Méndez • Cumpleaños</p>
+                                </div>
+                                <div>
+                                    <div class="flex items-center justify-between">
+                                        <p class="font-semibold text-gray-900">Sala privada • 12 pax</p>
+                                        <span class="status-badge"><span class="status-dot bg-blue-500"></span>Check-in 45'</span>
+                                    </div>
+                                    <p>15:30 • Summit Innovación</p>
+                                </div>
+                                <div>
+                                    <div class="flex items-center justify-between">
+                                        <p class="font-semibold text-gray-900">Terraza • 2 pax</p>
+                                        <span class="status-badge"><span class="status-dot bg-amber-400"></span>Confirmar pago</span>
+                                    </div>
+                                    <p>20:00 • David y Camila</p>
+                                </div>
+                                <div>
+                                    <div class="flex items-center justify-between">
+                                        <p class="font-semibold text-gray-900">Mesa 4 • 6 pax</p>
+                                        <span class="status-badge"><span class="status-dot bg-purple-500"></span>No-show riesgo</span>
+                                    </div>
+                                    <p>21:30 • Empresa Finver</p>
+                                </div>
+                            </div>
+                            <button class="w-full px-4 py-3 bg-whatsapp text-white rounded-xl font-medium minimal-button">Ver mapa interactivo</button>
+                        </div>
+                    </div>
+
+                    <div class="grid lg:grid-cols-3 gap-6">
+                        <div class="minimal-card p-6">
+                            <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">KPIs experiencia</h3>
+                            <div class="mt-5 space-y-4 text-sm text-gray-600">
+                                <div>
+                                    <div class="flex items-center justify-between">
+                                        <span>Satisfacción post visita</span>
+                                        <span class="font-semibold text-gray-900">4.8/5</span>
+                                    </div>
+                                    <div class="h-2 bg-gray-100 rounded-full mt-2">
+                                        <div class="h-full bg-blue-500 rounded-full" style="width: 86%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex items-center justify-between">
+                                        <span>Reconfirmaciones automáticas</span>
+                                        <span class="font-semibold text-gray-900">91%</span>
+                                    </div>
+                                    <div class="h-2 bg-gray-100 rounded-full mt-2">
+                                        <div class="h-full bg-green-500 rounded-full" style="width: 91%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex items-center justify-between">
+                                        <span>Upsell menú degustación</span>
+                                        <span class="font-semibold text-gray-900">23%</span>
+                                    </div>
+                                    <div class="h-2 bg-gray-100 rounded-full mt-2">
+                                        <div class="h-full bg-purple-500 rounded-full" style="width: 23%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Segmentos</h3>
+                            <ul class="mt-4 space-y-3 text-sm text-gray-600">
+                                <li class="flex items-center justify-between">
+                                    <span>Corporativo</span>
+                                    <span class="status-badge"><span class="status-dot bg-blue-500"></span>28%</span>
+                                </li>
+                                <li class="flex items-center justify-between">
+                                    <span>Celebraciones</span>
+                                    <span class="status-badge"><span class="status-dot bg-amber-400"></span>21%</span>
+                                </li>
+                                <li class="flex items-center justify-between">
+                                    <span>Turismo</span>
+                                    <span class="status-badge"><span class="status-dot bg-green-500"></span>18%</span>
+                                </li>
+                                <li class="flex items-center justify-between">
+                                    <span>Clientes VIP</span>
+                                    <span class="status-badge"><span class="status-dot bg-purple-500"></span>11%</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Protocolos automáticos</h3>
+                            <div class="mt-4 space-y-4 text-sm text-gray-600">
+                                <div>
+                                    <p class="font-semibold text-gray-900">Recordatorio + QR menú</p>
+                                    <p>Enviado 3 horas antes • Personalización por segmento.</p>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-900">Mensaje post visita</p>
+                                    <p>Encuesta NPS y oferta de fidelización 24h después.</p>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-900">Lista espera inteligente</p>
+                                    <p>Chatbot propone horarios alternos y upgrade.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <div id="templates-section" class="hidden">
-                    <div class="minimal-card p-8 text-center">
-                        <h3 class="text-2xl font-light text-gray-900 mb-4">Plantillas de Mensajes</h3>
-                        <p class="text-gray-600 mb-8">Crea y gestiona respuestas automáticas para tu chatbot</p>
-                        <div class="bg-gray-50 rounded-lg p-8">
-                            <p class="text-gray-500">Editor de plantillas próximamente...</p>
+
+                <div id="templates-section" class="hidden space-y-8">
+                    <div class="minimal-card p-6">
+                        <div class="flex flex-wrap items-center justify-between gap-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Biblioteca de plantillas</h3>
+                                <p class="text-sm text-gray-500">Estandariza mensajes clave y hazlos multicanal.</p>
+                            </div>
+                            <button class="px-5 py-3 bg-whatsapp text-white rounded-xl font-medium minimal-button">Crear nueva plantilla</button>
+                        </div>
+                        <div class="mt-6 grid md:grid-cols-2 xl:grid-cols-4 gap-4 text-sm text-gray-600">
+                            <div class="bg-gray-50 rounded-xl p-4 space-y-2">
+                                <p class="font-semibold text-gray-900">Confirmación de pedido</p>
+                                <p>Incluye resumen, tiempos estimados y botón de seguimiento.</p>
+                                <span class="status-badge"><span class="status-dot bg-green-500"></span>Plantilla activa</span>
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-4 space-y-2">
+                                <p class="font-semibold text-gray-900">Actualización de estado</p>
+                                <p>Mensajes según etapa: preparación, ruta, entregado.</p>
+                                <span class="status-badge"><span class="status-dot bg-blue-500"></span>Multi idioma</span>
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-4 space-y-2">
+                                <p class="font-semibold text-gray-900">Recordatorio de reserva</p>
+                                <p>Automatiza confirmación + opciones de modificación.</p>
+                                <span class="status-badge"><span class="status-dot bg-purple-500"></span>Omnicanal</span>
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-4 space-y-2">
+                                <p class="font-semibold text-gray-900">Feedback & NPS</p>
+                                <p>Solicita calificación personalizada y detecta alertas.</p>
+                                <span class="status-badge"><span class="status-dot bg-amber-400"></span>Disparador 24h</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 minimal-card p-6">
+                            <h3 class="text-lg font-semibold text-gray-900">Flujos automatizados</h3>
+                            <div class="mt-6 space-y-5">
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <div class="flex items-center justify-between text-sm text-gray-500">
+                                        <span>Flujo</span>
+                                        <span>Conversiones 78%</span>
+                                    </div>
+                                    <p class="mt-2 text-gray-800 font-semibold">Recuperación de carrito</p>
+                                    <p class="text-sm text-gray-600">Secuencia de 3 mensajes con incentivo dinámico según ticket.</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <div class="flex items-center justify-between text-sm text-gray-500">
+                                        <span>Flujo</span>
+                                        <span>Conversiones 63%</span>
+                                    </div>
+                                    <p class="mt-2 text-gray-800 font-semibold">Post venta & reseñas</p>
+                                    <p class="text-sm text-gray-600">Encuesta + enlace directo a Google Review o encuesta interna.</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <div class="flex items-center justify-between text-sm text-gray-500">
+                                        <span>Flujo</span>
+                                        <span>Conversiones 54%</span>
+                                    </div>
+                                    <p class="mt-2 text-gray-800 font-semibold">Programación de reservas</p>
+                                    <p class="text-sm text-gray-600">Bot valida disponibilidad y deriva al planner si hay excepciones.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Buenas prácticas</h3>
+                            <ul class="mt-4 space-y-4 text-sm text-gray-600">
+                                <li>
+                                    <p class="font-semibold text-gray-900">Variables dinámicas</p>
+                                    <p>Usa {{nombre}}, {{pedido}}, {{link_seguimiento}} para personalizar.</p>
+                                </li>
+                                <li>
+                                    <p class="font-semibold text-gray-900">Versiones A/B</p>
+                                    <p>Prueba tono y CTA distintos para optimizar conversión.</p>
+                                </li>
+                                <li>
+                                    <p class="font-semibold text-gray-900">Cumplimiento</p>
+                                    <p>Incluye opt-out y horario operativo autorizado.</p>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-                
-                <div id="clients-section" class="hidden">
-                    <div class="minimal-card p-8 text-center">
-                        <h3 class="text-2xl font-light text-gray-900 mb-4">Base de Clientes</h3>
-                        <p class="text-gray-600 mb-8">Listado, etiquetas, historial y gestión completa de clientes</p>
-                        <div class="bg-gray-50 rounded-lg p-8">
-                            <p class="text-gray-500">CRM de clientes próximamente...</p>
+
+                <div id="clients-section" class="hidden space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                        <div class="minimal-card p-6">
+                            <p class="text-sm text-gray-500">Clientes totales</p>
+                            <p class="text-3xl font-semibold text-gray-900 mt-2">5.842</p>
+                            <p class="text-xs text-gray-500 mt-2">+124 esta semana</p>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <p class="text-sm text-gray-500">Clientes fidelizados</p>
+                            <p class="text-3xl font-semibold text-gray-900 mt-2">1.209</p>
+                            <p class="text-xs text-gray-500 mt-2">Recompra promedio cada 18 días</p>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <p class="text-sm text-gray-500">Valor de vida (CLV)</p>
+                            <p class="text-3xl font-semibold text-gray-900 mt-2">$328.400</p>
+                            <p class="text-xs text-gray-500 mt-2">Variación +12% trimestral</p>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <p class="text-sm text-gray-500">Clientes con riesgo</p>
+                            <p class="text-3xl font-semibold text-gray-900 mt-2">73</p>
+                            <p class="text-xs text-gray-500 mt-2">Automatiza campañas winback</p>
+                        </div>
+                    </div>
+
+                    <div class="grid lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 minimal-card p-6 overflow-x-auto">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-gray-900">Clientes estratégicos</h3>
+                                <span class="text-xs text-gray-400">Top 8 por CLV</span>
+                            </div>
+                            <table class="min-w-full text-sm text-left text-gray-600">
+                                <thead>
+                                    <tr class="table-header">
+                                        <th class="py-2 pr-6">Cliente</th>
+                                        <th class="py-2 pr-6">Segmento</th>
+                                        <th class="py-2 pr-6">Pedidos</th>
+                                        <th class="py-2 pr-6">CLV</th>
+                                        <th class="py-2 pr-6">Último contacto</th>
+                                        <th class="py-2">Próxima acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100">
+                                    <tr>
+                                        <td class="py-3 pr-6">
+                                            <div class="font-semibold text-gray-900">Grupo Andina</div>
+                                            <div class="text-xs text-gray-500">Contacto: Daniela P.</div>
+                                        </td>
+                                        <td class="py-3 pr-6">Corporativo</td>
+                                        <td class="py-3 pr-6">38</td>
+                                        <td class="py-3 pr-6">$9.8M</td>
+                                        <td class="py-3 pr-6">Hace 4 días</td>
+                                        <td class="py-3"><span class="status-badge"><span class="status-dot bg-blue-500"></span>Reunión 12/07</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 pr-6">
+                                            <div class="font-semibold text-gray-900">Camila Torres</div>
+                                            <div class="text-xs text-gray-500">Cliente VIP</div>
+                                        </td>
+                                        <td class="py-3 pr-6">Fidelizado</td>
+                                        <td class="py-3 pr-6">24</td>
+                                        <td class="py-3 pr-6">$2.1M</td>
+                                        <td class="py-3 pr-6">Hace 3 días</td>
+                                        <td class="py-3"><span class="status-badge"><span class="status-dot bg-green-500"></span>Invitar a tasting</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 pr-6">
+                                            <div class="font-semibold text-gray-900">Hotel VistaMar</div>
+                                            <div class="text-xs text-gray-500">Catering semanal</div>
+                                        </td>
+                                        <td class="py-3 pr-6">Hospitality</td>
+                                        <td class="py-3 pr-6">16</td>
+                                        <td class="py-3 pr-6">$6.3M</td>
+                                        <td class="py-3 pr-6">Ayer</td>
+                                        <td class="py-3"><span class="status-badge"><span class="status-dot bg-purple-500"></span>Propuesta Q3</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 pr-6">
+                                            <div class="font-semibold text-gray-900">Juan Pablo Reyes</div>
+                                            <div class="text-xs text-gray-500">Delivery premium</div>
+                                        </td>
+                                        <td class="py-3 pr-6">Alta frecuencia</td>
+                                        <td class="py-3 pr-6">31</td>
+                                        <td class="py-3 pr-6">$1.4M</td>
+                                        <td class="py-3 pr-6">Hace 1 día</td>
+                                        <td class="py-3"><span class="status-badge"><span class="status-dot bg-amber-400"></span>Llamada follow-up</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="minimal-card p-6 space-y-5">
+                            <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Segmentación predictiva</h3>
+                            <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-600">
+                                <p class="font-semibold text-gray-900">Campaña winback • Conversión 34%</p>
+                                <p>Clientes inactivos &gt;45 días reciben incentivo dinámico.</p>
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-600">
+                                <p class="font-semibold text-gray-900">Cross-sell reservas</p>
+                                <p>Chatbot ofrece upgrade en eventos con historial positivo.</p>
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-4 text-sm text-gray-600">
+                                <p class="font-semibold text-gray-900">Alertas churn</p>
+                                <p>Detecta clientes con satisfacción &lt; 4 y deriva agente.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <div id="analytics-section" class="hidden">
-                    <div class="minimal-card p-8 text-center">
-                        <h3 class="text-2xl font-light text-gray-900 mb-4">Estadísticas Avanzadas</h3>
-                        <p class="text-gray-600 mb-8">Gráficos de rendimiento, embudo de conversación, tasas de conversión</p>
-                        <div class="bg-gray-50 rounded-lg p-8">
-                            <p class="text-gray-500">Analytics avanzados próximamente...</p>
+
+                <div id="analytics-section" class="hidden space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                        <div class="minimal-card p-6">
+                            <p class="text-sm text-gray-500">Tiempo medio primera respuesta</p>
+                            <p class="text-3xl font-semibold text-gray-900 mt-2">1.8 min</p>
+                            <p class="text-xs text-gray-500 mt-2">SLA objetivo: 3 min</p>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <p class="text-sm text-gray-500">Tasa resolución automática</p>
+                            <p class="text-3xl font-semibold text-gray-900 mt-2">64%</p>
+                            <p class="text-xs text-gray-500 mt-2">Chatbot vs agente humano</p>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <p class="text-sm text-gray-500">Pedidos cerrados en SLA</p>
+                            <p class="text-3xl font-semibold text-gray-900 mt-2">92%</p>
+                            <p class="text-xs text-gray-500 mt-2">Meta mensual 90%</p>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <p class="text-sm text-gray-500">Reservas confirmadas sin intervención</p>
+                            <p class="text-3xl font-semibold text-gray-900 mt-2">71%</p>
+                            <p class="text-xs text-gray-500 mt-2">Escenarios automatizados</p>
+                        </div>
+                    </div>
+
+                    <div class="grid lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 minimal-card p-6">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-semibold text-gray-900">Embudo de conversación</h3>
+                                <select class="text-sm border border-gray-300 rounded-lg px-3 py-1">
+                                    <option>Últimas 4 semanas</option>
+                                    <option>Últimos 3 meses</option>
+                                    <option>Último año</option>
+                                </select>
+                            </div>
+                            <div class="mt-6 space-y-4">
+                                <div>
+                                    <div class="flex items-center justify-between text-sm text-gray-600">
+                                        <span>Mensajes entrantes</span>
+                                        <span>12.480</span>
+                                    </div>
+                                    <div class="h-3 rounded-full bg-gray-100 mt-2">
+                                        <div class="h-full bg-blue-500 rounded-full" style="width: 100%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex items-center justify-between text-sm text-gray-600">
+                                        <span>Conversaciones atendidas</span>
+                                        <span>9.360</span>
+                                    </div>
+                                    <div class="h-3 rounded-full bg-gray-100 mt-2">
+                                        <div class="h-full bg-green-500 rounded-full" style="width: 75%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex items-center justify-between text-sm text-gray-600">
+                                        <span>Pedidos y reservas generados</span>
+                                        <span>3.420</span>
+                                    </div>
+                                    <div class="h-3 rounded-full bg-gray-100 mt-2">
+                                        <div class="h-full bg-purple-500 rounded-full" style="width: 48%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex items-center justify-between text-sm text-gray-600">
+                                        <span>Conversiones completadas</span>
+                                        <span>2.880</span>
+                                    </div>
+                                    <div class="h-3 rounded-full bg-gray-100 mt-2">
+                                        <div class="h-full bg-amber-400 rounded-full" style="width: 41%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <h3 class="text-lg font-semibold text-gray-900">Distribución por canal</h3>
+                            <div class="mt-6 space-y-4 text-sm text-gray-600">
+                                <div class="flex items-center justify-between">
+                                    <span>WhatsApp</span>
+                                    <span class="status-badge"><span class="status-dot bg-green-500"></span>58%</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span>Webchat</span>
+                                    <span class="status-badge"><span class="status-dot bg-blue-500"></span>24%</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span>Instagram / Meta</span>
+                                    <span class="status-badge"><span class="status-dot bg-pink-500"></span>11%</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span>Llamadas asistidas</span>
+                                    <span class="status-badge"><span class="status-dot bg-purple-500"></span>7%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid lg:grid-cols-3 gap-6">
+                        <div class="minimal-card p-6">
+                            <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Alertas operativas</h3>
+                            <ul class="mt-4 space-y-3 text-sm text-gray-600">
+                                <li class="flex items-start space-x-3">
+                                    <span class="status-dot bg-amber-400 mt-1"></span>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">Picos de demanda</p>
+                                        <p>Martes 19:00-21:00 supera capacidad agentes 1.4x.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="status-dot bg-red-500 mt-1"></span>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">Incidencias críticas</p>
+                                        <p>3 pedidos requieren seguimiento manual inmediato.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start space-x-3">
+                                    <span class="status-dot bg-blue-500 mt-1"></span>
+                                    <div>
+                                        <p class="font-semibold text-gray-900">Oportunidades cross-sell</p>
+                                        <p>Clientes con ticket &gt;$60k abiertos a upgrade premium.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Indicadores CX</h3>
+                            <div class="mt-4 space-y-4 text-sm text-gray-600">
+                                <div>
+                                    <div class="flex items-center justify-between">
+                                        <span>NPS promedio</span>
+                                        <span class="font-semibold text-gray-900">67</span>
+                                    </div>
+                                    <div class="h-2 bg-gray-100 rounded-full mt-2">
+                                        <div class="h-full bg-green-500 rounded-full" style="width: 67%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex items-center justify-between">
+                                        <span>CSAT pedidos</span>
+                                        <span class="font-semibold text-gray-900">4.6/5</span>
+                                    </div>
+                                    <div class="h-2 bg-gray-100 rounded-full mt-2">
+                                        <div class="h-full bg-blue-500 rounded-full" style="width: 82%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex items-center justify-between">
+                                        <span>Tasa retención mensual</span>
+                                        <span class="font-semibold text-gray-900">88%</span>
+                                    </div>
+                                    <div class="h-2 bg-gray-100 rounded-full mt-2">
+                                        <div class="h-full bg-purple-500 rounded-full" style="width: 88%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="minimal-card p-6">
+                            <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Proyecciones</h3>
+                            <div class="mt-4 space-y-3 text-sm text-gray-600">
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <p class="font-semibold text-gray-900">Ingresos canal chat</p>
+                                    <p>Proyección mensual $38.4M • Crecimiento esperado +14%.</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <p class="font-semibold text-gray-900">Capacidad agentes</p>
+                                    <p>Necesarios 2 agentes adicionales en horarios pico.</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-xl p-4">
+                                    <p class="font-semibold text-gray-900">Impacto automatizaciones</p>
+                                    <p>Reducen 26% carga operativa • +18% tiempo productivo.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <div id="settings-section" class="hidden">
-                    <div class="minimal-card p-8 text-center">
-                        <h3 class="text-2xl font-light text-gray-900 mb-4">Configuración</h3>
-                        <p class="text-gray-600 mb-8">Integraciones, horarios, flujos y opciones avanzadas</p>
-                        <div class="bg-gray-50 rounded-lg p-8">
-                            <p class="text-gray-500">Panel de configuración próximamente...</p>
+
+                <div id="settings-section" class="hidden space-y-8">
+                    <div class="minimal-card p-6">
+                        <h3 class="text-lg font-semibold text-gray-900">Preferencias del negocio</h3>
+                        <div class="mt-6 grid md:grid-cols-2 gap-6 text-sm text-gray-600">
+                            <div class="space-y-4">
+                                <label class="block">
+                                    <span class="text-xs uppercase text-gray-500">Nombre comercial</span>
+                                    <input type="text" value="ChatFlow Demo" class="mt-2 w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-whatsapp"/>
+                                </label>
+                                <label class="block">
+                                    <span class="text-xs uppercase text-gray-500">Horario operativo</span>
+                                    <input type="text" value="Lunes a Domingo • 09:00 - 22:00" class="mt-2 w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-whatsapp"/>
+                                </label>
+                                <label class="block">
+                                    <span class="text-xs uppercase text-gray-500">Zonas de cobertura</span>
+                                    <input type="text" value="Zona Metropolitana + envíos nacionales" class="mt-2 w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-whatsapp"/>
+                                </label>
+                            </div>
+                            <div class="space-y-4">
+                                <label class="block">
+                                    <span class="text-xs uppercase text-gray-500">Política de cancelación</span>
+                                    <textarea rows="3" class="mt-2 w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-whatsapp">Cancelaciones con 12h sin costo. Menos tiempo: cargo 30%.</textarea>
+                                </label>
+                                <label class="block">
+                                    <span class="text-xs uppercase text-gray-500">Límites por pedido</span>
+                                    <input type="text" value="Monto mínimo $18.000 • Máximo $2.000.000" class="mt-2 w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-whatsapp"/>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid lg:grid-cols-2 gap-6">
+                        <div class="minimal-card p-6 space-y-5">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900">SLA y escalaciones</h3>
+                                    <p class="text-sm text-gray-500">Define reglas para alertas automáticas.</p>
+                                </div>
+                                <button class="text-sm text-whatsapp font-semibold minimal-button">Editar reglas</button>
+                            </div>
+                            <div class="space-y-4 text-sm text-gray-600">
+                                <div class="flex items-center justify-between">
+                                    <span>Pedidos urgentes</span>
+                                    <span class="status-badge"><span class="status-dot bg-green-500"></span>Respuesta &lt; 2 min</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span>Reservas premium</span>
+                                    <span class="status-badge"><span class="status-dot bg-blue-500"></span>Derivar a planner</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span>Incidencias de entrega</span>
+                                    <span class="status-badge"><span class="status-dot bg-amber-400"></span>Escalar a logística</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="minimal-card p-6 space-y-5">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-900">Notificaciones y alertas</h3>
+                                    <p class="text-sm text-gray-500">Selecciona eventos críticos.</p>
+                                </div>
+                                <button class="text-sm text-whatsapp font-semibold minimal-button">Configurar</button>
+                            </div>
+                            <div class="space-y-4 text-sm text-gray-600">
+                                <label class="flex items-center justify-between">
+                                    <span>Pedido fuera de SLA</span>
+                                    <input type="checkbox" checked class="w-4 h-4 text-whatsapp border-gray-300 rounded"/>
+                                </label>
+                                <label class="flex items-center justify-between">
+                                    <span>Reserva sin confirmar</span>
+                                    <input type="checkbox" checked class="w-4 h-4 text-whatsapp border-gray-300 rounded"/>
+                                </label>
+                                <label class="flex items-center justify-between">
+                                    <span>Cliente con baja satisfacción</span>
+                                    <input type="checkbox" checked class="w-4 h-4 text-whatsapp border-gray-300 rounded"/>
+                                </label>
+                                <label class="flex items-center justify-between">
+                                    <span>Incidencias logísticas</span>
+                                    <input type="checkbox" class="w-4 h-4 text-whatsapp border-gray-300 rounded"/>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="minimal-card p-6">
+                        <h3 class="text-lg font-semibold text-gray-900">Integraciones</h3>
+                        <div class="mt-6 grid md:grid-cols-3 gap-4 text-sm text-gray-600">
+                            <div class="bg-gray-50 rounded-xl p-4">
+                                <p class="font-semibold text-gray-900">WhatsApp Business API</p>
+                                <p class="mt-1 text-xs text-gray-500">Estado: Conectado</p>
+                                <button class="mt-3 text-sm text-whatsapp font-semibold minimal-button">Ver credenciales</button>
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-4">
+                                <p class="font-semibold text-gray-900">ERP / Inventario</p>
+                                <p class="mt-1 text-xs text-gray-500">Estado: Sincronizado 15 min</p>
+                                <button class="mt-3 text-sm text-whatsapp font-semibold minimal-button">Forzar sync</button>
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-4">
+                                <p class="font-semibold text-gray-900">Pasarela de pagos</p>
+                                <p class="mt-1 text-xs text-gray-500">Estado: Operativa</p>
+                                <button class="mt-3 text-sm text-whatsapp font-semibold minimal-button">Ver reportes</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -518,41 +1618,58 @@
 
     <script>
         // Navigation functionality
-        function showSection(sectionName) {
-            // Hide all sections
+        function showSection(sectionName, trigger) {
             const sections = ['overview', 'live-chat', 'orders', 'reservations', 'templates', 'clients', 'analytics', 'settings'];
             sections.forEach(section => {
-                document.getElementById(section + '-section').classList.add('hidden');
+                const sectionElement = document.getElementById(section + '-section');
+                if (sectionElement) {
+                    sectionElement.classList.add('hidden');
+                }
             });
-            
-            // Show selected section
-            document.getElementById(sectionName + '-section').classList.remove('hidden');
-            
-            // Update sidebar active state
-            document.querySelectorAll('.sidebar-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            event.target.closest('.sidebar-item').classList.add('active');
-            
-            // Update page title
+
+            const activeSection = document.getElementById(sectionName + '-section');
+            if (activeSection) {
+                activeSection.classList.remove('hidden');
+            }
+
+            const navItems = document.querySelectorAll('.sidebar-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            const targetNav = (trigger && trigger.classList && trigger.classList.contains('sidebar-item'))
+                ? trigger
+                : document.querySelector(`.sidebar-item[data-section="${sectionName}"]`);
+            if (targetNav) {
+                targetNav.classList.add('active');
+            }
+
             const titles = {
                 'overview': { title: 'Dashboard Overview', subtitle: 'Monitorea el rendimiento de tu chatbot en tiempo real' },
                 'live-chat': { title: 'Chat en Vivo', subtitle: 'Gestiona conversaciones activas con tus clientes' },
-                'orders': { title: 'Gestión de Pedidos', subtitle: 'Administra todos los pedidos de tu negocio' },
-                'reservations': { title: 'Sistema de Reservas', subtitle: 'Calendario y gestión de citas y reservas' },
-                'templates': { title: 'Plantillas de Mensajes', subtitle: 'Crea y edita respuestas automáticas' },
-                'clients': { title: 'Base de Clientes', subtitle: 'Administra tu base de datos de clientes' },
-                'analytics': { title: 'Estadísticas Avanzadas', subtitle: 'Reportes detallados y métricas de rendimiento' },
-                'settings': { title: 'Configuración', subtitle: 'Ajustes generales y configuración del sistema' }
+                'orders': { title: 'Gestión de Pedidos', subtitle: 'Administra todo el ciclo operativo de pedidos omnicanal' },
+                'reservations': { title: 'Sistema de Reservas', subtitle: 'Coordina disponibilidad, capacidades y lista de espera' },
+                'templates': { title: 'Plantillas de Mensajes', subtitle: 'Diseña respuestas estratégicas y flujos automatizados' },
+                'clients': { title: 'Base de Clientes', subtitle: 'Segmenta, fideliza y anticipa necesidades de tus clientes' },
+                'analytics': { title: 'Estadísticas Avanzadas', subtitle: 'Visualiza indicadores clave y oportunidades operativas' },
+                'settings': { title: 'Configuración', subtitle: 'Define integraciones, SLA y políticas de servicio' }
             };
-            
-            const pageInfo = titles[sectionName];
-            document.getElementById('pageTitle').innerHTML = pageInfo.title.replace(' ', ' <span class="font-semibold">') + '</span>';
-            document.getElementById('pageSubtitle').textContent = pageInfo.subtitle;
+
+            const pageInfo = titles[sectionName] || titles['overview'];
+            const pageTitle = document.getElementById('pageTitle');
+            if (pageTitle && pageInfo) {
+                const [firstWord, ...restWords] = pageInfo.title.split(' ');
+                pageTitle.innerHTML = restWords.length > 0
+                    ? `${firstWord} <span class="font-semibold">${restWords.join(' ')}</span>`
+                    : `<span class="font-semibold">${firstWord}</span>`;
+            }
+
+            const subtitleEl = document.getElementById('pageSubtitle');
+            if (subtitleEl && pageInfo) {
+                subtitleEl.textContent = pageInfo.subtitle;
+            }
         }
-        
-        // Initialize chart animations
+
         document.addEventListener('DOMContentLoaded', function() {
+            showSection('overview');
+
             const chartBars = document.querySelectorAll('.chart-bar');
             chartBars.forEach((bar, index) => {
                 setTimeout(() => {
@@ -562,5 +1679,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99a658fa8337148f',t:'MTc2MjQ1MDUyOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
