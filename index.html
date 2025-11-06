@@ -134,11 +134,46 @@
             border: 1px solid #e5e7eb;
             background: white;
             transition: all 0.2s ease;
+            cursor: grab;
         }
 
         .kanban-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 15px 30px -15px rgba(15, 23, 42, 0.25);
+        }
+
+        .kanban-card:active {
+            cursor: grabbing;
+        }
+
+        .kanban-card.dragging {
+            opacity: 0.6;
+            transform: scale(0.99);
+        }
+
+        .order-dropzone {
+            min-height: 12rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 0.25rem;
+            transition: background 0.2s ease, border 0.2s ease;
+        }
+
+        .order-dropzone.is-over {
+            background-color: rgba(37, 211, 102, 0.08);
+            border-radius: 0.75rem;
+            border: 1px dashed rgba(37, 211, 102, 0.4);
+        }
+
+        .order-placeholder {
+            border: 1px dashed #d1d5db;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #9ca3af;
+            background: #f9fafb;
         }
 
         .timeline::before {
@@ -723,143 +758,78 @@
                     </div>
 
                     <div class="grid xl:grid-cols-5 gap-6">
-                        <div class="xl:col-span-1 kanban-column p-5 space-y-4">
+                        <div class="xl:col-span-1 kanban-column p-5 space-y-4" data-status-column="new">
                             <div class="flex items-center justify-between">
                                 <h4 class="font-semibold text-gray-900">Nuevos</h4>
-                                <span class="text-xs text-gray-400">12</span>
+                                <span class="text-xs text-gray-400" data-count-for="new">0</span>
                             </div>
-                            <div class="kanban-card p-4 space-y-3">
-                                <div class="flex justify-between text-sm text-gray-600">
-                                    <span>#4621 • WhatsApp</span>
-                                    <span>09:10</span>
-                                </div>
-                                <p class="font-semibold text-gray-900">Combo brunch x3</p>
-                                <div class="flex items-center justify-between text-xs text-gray-500">
-                                    <span>Cliente nuevo</span>
-                                    <span class="status-badge"><span class="status-dot bg-amber-400"></span>Pago pendiente</span>
-                                </div>
-                            </div>
-                            <div class="kanban-card p-4 space-y-3">
-                                <div class="flex justify-between text-sm text-gray-600">
-                                    <span>#4622 • Chatbot</span>
-                                    <span>09:12</span>
-                                </div>
-                                <p class="font-semibold text-gray-900">Menú ejecutivo</p>
-                                <div class="flex items-center justify-between text-xs text-gray-500">
-                                    <span>Entrega 12:00</span>
-                                    <span class="status-badge"><span class="status-dot bg-blue-500"></span>Validando stock</span>
-                                </div>
-                            </div>
+                            <div class="order-dropzone" data-status="new"></div>
                         </div>
-                        <div class="xl:col-span-1 kanban-column p-5 space-y-4">
+                        <div class="xl:col-span-1 kanban-column p-5 space-y-4" data-status-column="confirmed">
                             <div class="flex items-center justify-between">
                                 <h4 class="font-semibold text-gray-900">Confirmados</h4>
-                                <span class="text-xs text-gray-400">22</span>
+                                <span class="text-xs text-gray-400" data-count-for="confirmed">0</span>
                             </div>
-                            <div class="kanban-card p-4 space-y-3">
-                                <div class="flex justify-between text-sm text-gray-600">
-                                    <span>#4614 • App móvil</span>
-                                    <span>08:35</span>
-                                </div>
-                                <p class="font-semibold text-gray-900">Pedido corporativo</p>
-                                <div class="flex items-center justify-between text-xs text-gray-500">
-                                    <span>Entrega 11:30</span>
-                                    <span class="status-badge"><span class="status-dot bg-green-500"></span>Prep. asignada</span>
-                                </div>
-                            </div>
-                            <div class="kanban-card p-4 space-y-3">
-                                <div class="flex justify-between text-sm text-gray-600">
-                                    <span>#4619 • WhatsApp</span>
-                                    <span>08:50</span>
-                                </div>
-                                <p class="font-semibold text-gray-900">Repostería vegana</p>
-                                <div class="flex items-center justify-between text-xs text-gray-500">
-                                    <span>Retiro en tienda</span>
-                                    <span class="status-badge"><span class="status-dot bg-purple-500"></span>Asignar rider</span>
-                                </div>
-                            </div>
+                            <div class="order-dropzone" data-status="confirmed"></div>
                         </div>
-                        <div class="xl:col-span-1 kanban-column p-5 space-y-4">
+                        <div class="xl:col-span-1 kanban-column p-5 space-y-4" data-status-column="preparing">
                             <div class="flex items-center justify-between">
                                 <h4 class="font-semibold text-gray-900">En preparación</h4>
-                                <span class="text-xs text-gray-400">31</span>
+                                <span class="text-xs text-gray-400" data-count-for="preparing">0</span>
                             </div>
-                            <div class="kanban-card p-4 space-y-3">
-                                <div class="flex justify-between text-sm text-gray-600">
-                                    <span>#4607 • Kiosco</span>
-                                    <span>08:10</span>
-                                </div>
-                                <p class="font-semibold text-gray-900">Menu Kids party</p>
-                                <div class="flex items-center justify-between text-xs text-gray-500">
-                                    <span>Chef Laura</span>
-                                    <span class="status-badge"><span class="status-dot bg-blue-500"></span>Check QA</span>
-                                </div>
-                            </div>
-                            <div class="kanban-card p-4 space-y-3">
-                                <div class="flex justify-between text-sm text-gray-600">
-                                    <span>#4609 • WhatsApp</span>
-                                    <span>08:20</span>
-                                </div>
-                                <p class="font-semibold text-gray-900">Catering express</p>
-                                <div class="flex items-center justify-between text-xs text-gray-500">
-                                    <span>Salida 09:45</span>
-                                    <span class="status-badge"><span class="status-dot bg-amber-400"></span>Alerta SLA</span>
-                                </div>
-                            </div>
+                            <div class="order-dropzone" data-status="preparing"></div>
                         </div>
-                        <div class="xl:col-span-1 kanban-column p-5 space-y-4">
+                        <div class="xl:col-span-1 kanban-column p-5 space-y-4" data-status-column="ready">
                             <div class="flex items-center justify-between">
                                 <h4 class="font-semibold text-gray-900">Listos para entrega</h4>
-                                <span class="text-xs text-gray-400">18</span>
+                                <span class="text-xs text-gray-400" data-count-for="ready">0</span>
                             </div>
-                            <div class="kanban-card p-4 space-y-3">
-                                <div class="flex justify-between text-sm text-gray-600">
-                                    <span>#4598 • Marketplace</span>
-                                    <span>07:58</span>
-                                </div>
-                                <p class="font-semibold text-gray-900">Lunch saludable</p>
-                                <div class="flex items-center justify-between text-xs text-gray-500">
-                                    <span>Ruta 3</span>
-                                    <span class="status-badge"><span class="status-dot bg-green-500"></span>Despacho 09:30</span>
-                                </div>
-                            </div>
-                            <div class="kanban-card p-4 space-y-3">
-                                <div class="flex justify-between text-sm text-gray-600">
-                                    <span>#4601 • WhatsApp</span>
-                                    <span>08:00</span>
-                                </div>
-                                <p class="font-semibold text-gray-900">Caja celebración</p>
-                                <div class="flex items-center justify-between text-xs text-gray-500">
-                                    <span>Recoge cliente</span>
-                                    <span class="status-badge"><span class="status-dot bg-purple-500"></span>Notificar retiro</span>
-                                </div>
-                            </div>
+                            <div class="order-dropzone" data-status="ready"></div>
                         </div>
-                        <div class="xl:col-span-1 kanban-column p-5 space-y-4">
+                        <div class="xl:col-span-1 kanban-column p-5 space-y-4" data-status-column="delivered">
                             <div class="flex items-center justify-between">
                                 <h4 class="font-semibold text-gray-900">En ruta / Cerrados</h4>
-                                <span class="text-xs text-gray-400">41</span>
+                                <span class="text-xs text-gray-400" data-count-for="delivered">0</span>
                             </div>
-                            <div class="kanban-card p-4 space-y-3">
-                                <div class="flex justify-between text-sm text-gray-600">
-                                    <span>#4588 • App móvil</span>
-                                    <span>07:20</span>
+                            <div class="order-dropzone" data-status="delivered"></div>
+                        </div>
+                    </div>
+
+                    <div id="orderModal" class="fixed inset-0 z-50 hidden" aria-hidden="true" role="dialog">
+                        <div id="orderModalBackdrop" class="absolute inset-0 bg-gray-900/40"></div>
+                        <div class="relative z-10 flex min-h-screen items-center justify-center p-6">
+                            <div class="glass-card w-full max-w-3xl rounded-3xl bg-white/95 p-8 shadow-2xl">
+                                <div class="flex items-start justify-between gap-6">
+                                    <div class="space-y-2">
+                                        <p class="text-xs font-semibold uppercase tracking-widest text-gray-400">Detalle de pedido</p>
+                                        <h3 id="modalOrderTitle" class="text-2xl font-semibold text-gray-900"></h3>
+                                        <p id="modalOrderSubtitle" class="text-sm text-gray-500"></p>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <span id="modalOrderStatus" class="status-badge whitespace-nowrap"></span>
+                                        <button id="closeOrderModal" class="rounded-full bg-gray-100 p-2 text-gray-500 transition hover:bg-gray-200 hover:text-gray-700" aria-label="Cerrar">
+                                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
-                                <p class="font-semibold text-gray-900">Gourmet box x2</p>
-                                <div class="flex items-center justify-between text-xs text-gray-500">
-                                    <span>Rider Javier</span>
-                                    <span class="status-badge"><span class="status-dot bg-green-500"></span>Entregado</span>
+
+                                <div class="mt-6 grid gap-4 text-sm text-gray-600 sm:grid-cols-2" id="modalOrderMeta"></div>
+
+                                <div class="mt-6 space-y-4">
+                                    <h4 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Descripción</h4>
+                                    <p id="modalOrderSummary" class="text-base text-gray-700"></p>
                                 </div>
-                            </div>
-                            <div class="kanban-card p-4 space-y-3">
-                                <div class="flex justify-between text-sm text-gray-600">
-                                    <span>#4591 • WhatsApp</span>
-                                    <span>07:45</span>
+
+                                <div class="mt-6 space-y-4">
+                                    <h4 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Línea de tiempo</h4>
+                                    <div id="modalOrderTimeline" class="space-y-3"></div>
                                 </div>
-                                <p class="font-semibold text-gray-900">Desayuno corporativo</p>
-                                <div class="flex items-center justify-between text-xs text-gray-500">
-                                    <span>Feedback pendiente</span>
-                                    <span class="status-badge"><span class="status-dot bg-blue-500"></span>Solicitar reseña</span>
+
+                                <div class="mt-6 space-y-3">
+                                    <h4 class="text-sm font-semibold uppercase tracking-wider text-gray-400">Etiquetas</h4>
+                                    <div id="modalOrderTags" class="flex flex-wrap gap-2"></div>
                                 </div>
                             </div>
                         </div>
@@ -1616,8 +1586,499 @@
         </div>
     </div>
 
-    <script>
-        // Navigation functionality
+        <script>
+        const orderStatusLabels = {
+            'new': 'Nuevo',
+            'confirmed': 'Confirmado',
+            'preparing': 'En preparación',
+            'ready': 'Listo para entrega',
+            'delivered': 'En ruta / Cerrado'
+        };
+
+        const orderColumns = {
+            'new': { empty: 'Arrastra pedidos nuevos aquí' },
+            'confirmed': { empty: 'Suelta pedidos confirmados aquí' },
+            'preparing': { empty: 'Pedidos en preparación aparecerán aquí' },
+            'ready': { empty: 'Coloca aquí pedidos listos para entregar' },
+            'delivered': { empty: 'Pedidos completados o en ruta' }
+        };
+
+        const badgeDotColors = {
+            'green': 'bg-green-500',
+            'amber': 'bg-amber-400',
+            'blue': 'bg-blue-500',
+            'purple': 'bg-purple-500',
+            'red': 'bg-red-500'
+        };
+
+        const orders = [
+            {
+                id: '4621',
+                status: 'new',
+                title: 'Combo brunch x3',
+                channel: 'WhatsApp',
+                time: '09:10',
+                meta: 'Cliente nuevo',
+                statusBadge: { text: 'Pago pendiente', tone: 'amber' },
+                summary: 'Desayuno especial con jugos prensados y pastelería artesanal.',
+                tags: ['Pago pendiente', 'Cliente nuevo'],
+                details: [
+                    { label: 'Cliente', value: 'Valeria Prado' },
+                    { label: 'Entrega', value: 'Entrega programada 10:45 • Av. Italia 225' },
+                    { label: 'Monto', value: '$58.900' },
+                    { label: 'Contacto', value: '+56 9 7654 3210' }
+                ],
+                timeline: [
+                    { time: '09:05', title: 'Pedido recibido', description: 'Generado desde bot de WhatsApp.', tone: 'green' },
+                    { time: '09:07', title: 'Datos verificados', description: 'Cliente confirmó dirección y comentarios.', tone: 'blue' },
+                    { time: '09:10', title: 'Pago en proceso', description: 'Esperando confirmación de la entidad bancaria.', tone: 'amber' }
+                ]
+            },
+            {
+                id: '4622',
+                status: 'new',
+                title: 'Menú ejecutivo',
+                channel: 'Chatbot',
+                time: '09:12',
+                meta: 'Entrega 12:00',
+                statusBadge: { text: 'Validando stock', tone: 'blue' },
+                summary: 'Almuerzo ejecutivo para directorio con opciones vegetarianas.',
+                tags: ['Corporativo', 'Revisar inventario'],
+                details: [
+                    { label: 'Cliente', value: 'Fernando Torres' },
+                    { label: 'Entrega', value: 'Entrega 12:00 • Torre Costanera piso 18' },
+                    { label: 'Monto', value: '$32.500' },
+                    { label: 'Contacto', value: '+56 2 2345 6789' }
+                ],
+                timeline: [
+                    { time: '09:12', title: 'Pedido ingresado', description: 'Registrado por asistente virtual.', tone: 'green' },
+                    { time: '09:14', title: 'Revisión de inventario', description: 'Chef revisando disponibilidad de ingredientes.', tone: 'blue' },
+                    { time: '09:16', title: 'Pendiente confirmación', description: 'Esperando aprobación de cocina.', tone: 'amber' }
+                ]
+            },
+            {
+                id: '4614',
+                status: 'confirmed',
+                title: 'Pedido corporativo',
+                channel: 'App móvil',
+                time: '08:35',
+                meta: 'Entrega 11:30',
+                statusBadge: { text: 'Prep. asignada', tone: 'green' },
+                summary: 'Pedido corporativo para sala de reuniones con 18 porciones.',
+                tags: ['Alto volumen', 'Prioridad alta'],
+                details: [
+                    { label: 'Cliente', value: 'Grupo Altamira' },
+                    { label: 'Entrega', value: 'Entrega 11:30 • Campus corporativo Las Condes' },
+                    { label: 'Monto', value: '$189.600' },
+                    { label: 'Contacto', value: 'Cecilia Román • +56 9 9988 7766' }
+                ],
+                timeline: [
+                    { time: '08:20', title: 'Confirmación automática', description: 'Pago validado por pasarela principal.', tone: 'green' },
+                    { time: '08:32', title: 'Equipo asignado', description: 'Brigada corporativa #2 toma el pedido.', tone: 'purple' },
+                    { time: '08:45', title: 'Checklist inicial', description: 'Insumos críticos listos, falta empaque especial.', tone: 'blue' }
+                ]
+            },
+            {
+                id: '4619',
+                status: 'confirmed',
+                title: 'Repostería vegana',
+                channel: 'WhatsApp',
+                time: '08:50',
+                meta: 'Retiro en tienda',
+                statusBadge: { text: 'Asignar rider', tone: 'purple' },
+                summary: 'Selección de repostería vegana premium para celebración.',
+                tags: ['Sin gluten', 'Requiere rider'],
+                details: [
+                    { label: 'Cliente', value: 'Marcela Díaz' },
+                    { label: 'Entrega', value: 'Retiro 12:30 • Tienda Providencia' },
+                    { label: 'Monto', value: '$74.200' },
+                    { label: 'Contacto', value: '+56 9 8765 1122' }
+                ],
+                timeline: [
+                    { time: '08:40', title: 'Pedido confirmado', description: 'Se confirmó disponibilidad de productos.', tone: 'green' },
+                    { time: '08:46', title: 'Embalaje especial', description: 'Solicitado empaque térmico y mensaje personalizado.', tone: 'blue' },
+                    { time: '09:00', title: 'Pendiente rider', description: 'Falta asignar repartidor para retiro programado.', tone: 'amber' }
+                ]
+            },
+            {
+                id: '4607',
+                status: 'preparing',
+                title: 'Menu Kids party',
+                channel: 'Kiosco',
+                time: '08:10',
+                meta: 'Chef Laura',
+                statusBadge: { text: 'Check QA', tone: 'blue' },
+                summary: 'Menú infantil para celebración con opciones saludables y divertidas.',
+                tags: ['Kids party', 'Checklist QA'],
+                details: [
+                    { label: 'Cliente', value: 'Colegio Andes' },
+                    { label: 'Entrega', value: 'Despacho 11:15 • Gimnasio principal' },
+                    { label: 'Monto', value: '$142.300' },
+                    { label: 'Contacto', value: 'Coordinación eventos • +56 9 3344 5566' }
+                ],
+                timeline: [
+                    { time: '07:55', title: 'Producción iniciada', description: 'Equipo cocina infantil inicia preparación.', tone: 'green' },
+                    { time: '08:20', title: 'Control nutricional', description: 'Nutricionista aprueba menú sin alérgenos.', tone: 'blue' },
+                    { time: '08:45', title: 'Revisión QA', description: 'Se prepara checklist fotográfico para cliente.', tone: 'purple' }
+                ]
+            },
+            {
+                id: '4609',
+                status: 'preparing',
+                title: 'Catering express',
+                channel: 'WhatsApp',
+                time: '08:20',
+                meta: 'Salida 09:45',
+                statusBadge: { text: 'Alerta SLA', tone: 'amber' },
+                summary: 'Catering express para reunión improvisada, 24 porciones saladas.',
+                tags: ['SLA crítico', 'Express'],
+                details: [
+                    { label: 'Cliente', value: 'Grupo Andina' },
+                    { label: 'Entrega', value: 'Salida 09:45 • Torre Norte acceso B' },
+                    { label: 'Monto', value: '$312.400' },
+                    { label: 'Contacto', value: 'Mesa logística • +56 2 2277 8899' }
+                ],
+                timeline: [
+                    { time: '08:10', title: 'Pedido confirmado', description: 'Confirmación automática vía WhatsApp.', tone: 'green' },
+                    { time: '08:25', title: 'Producción en curso', description: 'Chef Laura coordina refuerzo de personal.', tone: 'purple' },
+                    { time: '08:40', title: 'Requiere refuerzo', description: 'Volumen supera capacidad estándar, avisar logística.', tone: 'amber' }
+                ]
+            },
+            {
+                id: '4598',
+                status: 'ready',
+                title: 'Lunch saludable',
+                channel: 'Marketplace',
+                time: '07:58',
+                meta: 'Ruta 3',
+                statusBadge: { text: 'Despacho 09:30', tone: 'green' },
+                summary: 'Paquetes lunch saludable para oficina con opciones sin lactosa.',
+                tags: ['Ruta 3', 'Sin lactosa'],
+                details: [
+                    { label: 'Cliente', value: 'Empresa GeoTrack' },
+                    { label: 'Entrega', value: 'Despacho 09:30 • Parque Empresarial Huechuraba' },
+                    { label: 'Monto', value: '$86.400' },
+                    { label: 'Contacto', value: 'Supervisor ruta 3 • +56 9 8877 6655' }
+                ],
+                timeline: [
+                    { time: '07:20', title: 'Preparación finalizada', description: 'Pedidos embalados y rotulados.', tone: 'green' },
+                    { time: '07:45', title: 'Control de temperatura', description: 'Checklist de cadena de frío aprobado.', tone: 'blue' },
+                    { time: '08:05', title: 'En espera de reparto', description: 'Listo en estación logística ruta 3.', tone: 'purple' }
+                ]
+            },
+            {
+                id: '4601',
+                status: 'ready',
+                title: 'Caja celebración',
+                channel: 'WhatsApp',
+                time: '08:00',
+                meta: 'Recoge cliente',
+                statusBadge: { text: 'Notificar retiro', tone: 'purple' },
+                summary: 'Caja celebración con pastelería y espumante para aniversario.',
+                tags: ['Pick-up', 'Experiencia premium'],
+                details: [
+                    { label: 'Cliente', value: 'Camila y Rodrigo' },
+                    { label: 'Entrega', value: 'Retiro 10:15 • Showroom Las Tranqueras' },
+                    { label: 'Monto', value: '$64.900' },
+                    { label: 'Contacto', value: '+56 9 5544 2211' }
+                ],
+                timeline: [
+                    { time: '07:40', title: 'Producción completada', description: 'Caja personalizada terminada.', tone: 'green' },
+                    { time: '07:55', title: 'Decoración especial', description: 'Se agrega tarjeta con dedicatoria.', tone: 'blue' },
+                    { time: '08:05', title: 'Avisar cliente', description: 'Pendiente enviar confirmación de retiro.', tone: 'amber' }
+                ]
+            },
+            {
+                id: '4588',
+                status: 'delivered',
+                title: 'Gourmet box x2',
+                channel: 'App móvil',
+                time: '07:20',
+                meta: 'Rider Javier',
+                statusBadge: { text: 'Entregado', tone: 'green' },
+                summary: 'Gourmet box doble con maridaje premium para regalo corporativo.',
+                tags: ['Feedback pendiente', 'Ruta 1'],
+                details: [
+                    { label: 'Cliente', value: 'Paula Herrera' },
+                    { label: 'Entrega', value: 'Entregado 08:10 • Oficina Nueva Las Condes' },
+                    { label: 'Monto', value: '$128.000' },
+                    { label: 'Contacto', value: 'Rider Javier • +56 9 4433 2211' }
+                ],
+                timeline: [
+                    { time: '06:50', title: 'Salida a ruta', description: 'Pedido cargado en vehículo eléctrico.', tone: 'purple' },
+                    { time: '07:40', title: 'Entrega confirmada', description: 'Cliente recibió y firmó recepción digital.', tone: 'green' },
+                    { time: '07:50', title: 'Feedback pendiente', description: 'Solicitar reseña en las próximas 2 horas.', tone: 'blue' }
+                ]
+            },
+            {
+                id: '4591',
+                status: 'delivered',
+                title: 'Desayuno corporativo',
+                channel: 'WhatsApp',
+                time: '07:45',
+                meta: 'Feedback pendiente',
+                statusBadge: { text: 'Solicitar reseña', tone: 'blue' },
+                summary: 'Desayuno corporativo para directorio con mix dulce/salado.',
+                tags: ['Encuesta pendiente', 'Cliente recurrente'],
+                details: [
+                    { label: 'Cliente', value: 'Inversiones Aurora' },
+                    { label: 'Entrega', value: 'Entregado 08:25 • Torre Titanium piso 16' },
+                    { label: 'Monto', value: '$152.700' },
+                    { label: 'Contacto', value: 'Coordinadora Marta L. • +56 9 9987 6654' }
+                ],
+                timeline: [
+                    { time: '07:10', title: 'Salida logística', description: 'Pedido despachado con unidad refrigerada.', tone: 'purple' },
+                    { time: '08:15', title: 'Recepción confirmada', description: 'Firma digital completada por recepción.', tone: 'green' },
+                    { time: '08:40', title: 'Pendiente feedback', description: 'Enviar encuesta de satisfacción a cliente.', tone: 'blue' }
+                ]
+            }
+        ];
+
+        let draggedOrderId = null;
+
+        function getBadgeDotClass(tone) {
+            return badgeDotColors[tone] || 'bg-slate-300';
+        }
+
+        function setStatusBadge(element, tone, text) {
+            if (!element) return;
+            element.innerHTML = '';
+            const dot = document.createElement('span');
+            dot.className = `status-dot ${getBadgeDotClass(tone)}`;
+            element.appendChild(dot);
+            element.append(text);
+        }
+
+        function createOrderCard(order) {
+            const card = document.createElement('div');
+            card.className = 'kanban-card p-4 space-y-3';
+            card.setAttribute('draggable', 'true');
+            card.dataset.orderId = order.id;
+            card.dataset.dragging = 'false';
+
+            const header = document.createElement('div');
+            header.className = 'flex justify-between text-sm text-gray-600';
+            header.innerHTML = `<span>#${order.id} • ${order.channel}</span><span>${order.time}</span>`;
+
+            const title = document.createElement('p');
+            title.className = 'font-semibold text-gray-900';
+            title.textContent = order.title;
+
+            const footer = document.createElement('div');
+            footer.className = 'flex items-center justify-between text-xs text-gray-500';
+
+            const meta = document.createElement('span');
+            meta.textContent = order.meta || '';
+
+            const badge = document.createElement('span');
+            badge.className = 'status-badge';
+            setStatusBadge(badge, order.statusBadge?.tone, order.statusBadge?.text || orderStatusLabels[order.status]);
+
+            footer.append(meta, badge);
+
+            card.append(header, title, footer);
+
+            card.addEventListener('dragstart', handleDragStart);
+            card.addEventListener('dragend', handleDragEnd);
+            card.addEventListener('click', () => {
+                if (card.dataset.dragging === 'true') return;
+                openOrderModal(order.id);
+            });
+
+            return card;
+        }
+
+        function renderOrders() {
+            const dropzones = document.querySelectorAll('.order-dropzone');
+            dropzones.forEach(zone => {
+                const status = zone.dataset.status;
+                const columnOrders = orders.filter(order => order.status === status);
+                zone.innerHTML = '';
+
+                if (columnOrders.length === 0) {
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'order-placeholder';
+                    const emptyText = orderColumns[status]?.empty || 'Arrastra pedidos aquí';
+                    placeholder.textContent = emptyText;
+                    zone.appendChild(placeholder);
+                } else {
+                    columnOrders.forEach(order => zone.appendChild(createOrderCard(order)));
+                }
+
+                const counter = document.querySelector(`[data-count-for="${status}"]`);
+                if (counter) {
+                    counter.textContent = columnOrders.length;
+                }
+            });
+        }
+
+        function moveOrderToStatus(orderId, newStatus) {
+            const index = orders.findIndex(order => order.id === orderId);
+            if (index === -1) return;
+
+            const [order] = orders.splice(index, 1);
+            order.status = newStatus;
+            orders.push(order);
+        }
+
+        function handleDragStart(event) {
+            draggedOrderId = event.currentTarget.dataset.orderId;
+            if (event.dataTransfer) {
+                event.dataTransfer.effectAllowed = 'move';
+                event.dataTransfer.setData('text/plain', draggedOrderId);
+            }
+            event.currentTarget.classList.add('dragging');
+            event.currentTarget.dataset.dragging = 'true';
+        }
+
+        function handleDragEnd(event) {
+            event.currentTarget.classList.remove('dragging');
+            event.currentTarget.dataset.dragging = 'false';
+            draggedOrderId = null;
+            document.querySelectorAll('.order-dropzone').forEach(zone => zone.classList.remove('is-over'));
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            if (event.dataTransfer) {
+                event.dataTransfer.dropEffect = 'move';
+            }
+            event.currentTarget.classList.add('is-over');
+        }
+
+        function handleDragLeave(event) {
+            event.currentTarget.classList.remove('is-over');
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            const targetStatus = event.currentTarget.dataset.status;
+            const orderId = draggedOrderId || (event.dataTransfer ? event.dataTransfer.getData('text/plain') : null);
+            if (!targetStatus || !orderId) return;
+
+            moveOrderToStatus(orderId, targetStatus);
+            event.currentTarget.classList.remove('is-over');
+            renderOrders();
+        }
+
+        function initializeKanbanBoard() {
+            const dropzones = document.querySelectorAll('.order-dropzone');
+            dropzones.forEach(zone => {
+                zone.addEventListener('dragover', handleDragOver);
+                zone.addEventListener('dragleave', handleDragLeave);
+                zone.addEventListener('drop', handleDrop);
+            });
+            renderOrders();
+        }
+
+        function openOrderModal(orderId) {
+            const order = orders.find(item => item.id === orderId);
+            const modal = document.getElementById('orderModal');
+            if (!order || !modal) return;
+
+            const titleEl = document.getElementById('modalOrderTitle');
+            const subtitleEl = document.getElementById('modalOrderSubtitle');
+            const statusEl = document.getElementById('modalOrderStatus');
+            const summaryEl = document.getElementById('modalOrderSummary');
+            const metaContainer = document.getElementById('modalOrderMeta');
+            const timelineContainer = document.getElementById('modalOrderTimeline');
+            const tagsContainer = document.getElementById('modalOrderTags');
+
+            if (titleEl) {
+                titleEl.textContent = `Pedido #${order.id} · ${order.title}`;
+            }
+
+            if (subtitleEl) {
+                subtitleEl.textContent = `${order.channel} • ${order.time}`;
+            }
+
+            if (statusEl) {
+                setStatusBadge(statusEl, order.statusBadge?.tone, order.statusBadge?.text || orderStatusLabels[order.status]);
+            }
+
+            if (summaryEl) {
+                summaryEl.textContent = order.summary || '';
+            }
+
+            if (metaContainer) {
+                metaContainer.innerHTML = '';
+                (order.details || []).forEach(detail => {
+                    const detailCard = document.createElement('div');
+                    detailCard.className = 'rounded-2xl bg-gray-50 p-4';
+                    detailCard.innerHTML = `
+                        <p class="text-xs uppercase tracking-wider text-gray-400">${detail.label}</p>
+                        <p class="mt-1 text-sm font-semibold text-gray-900">${detail.value}</p>
+                    `;
+                    metaContainer.appendChild(detailCard);
+                });
+            }
+
+            if (timelineContainer) {
+                timelineContainer.innerHTML = '';
+                (order.timeline || []).forEach(event => {
+                    const eventRow = document.createElement('div');
+                    eventRow.className = 'flex items-start gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-4';
+
+                    const dot = document.createElement('span');
+                    dot.className = `status-dot mt-1 ${getBadgeDotClass(event.tone)}`;
+
+                    const content = document.createElement('div');
+                    content.innerHTML = `
+                        <div class="flex items-center justify-between text-xs text-gray-500">
+                            <span>${event.time}</span>
+                            <span class="font-medium text-gray-900">${event.title}</span>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-600">${event.description}</p>
+                    `;
+
+                    eventRow.append(dot, content);
+                    timelineContainer.appendChild(eventRow);
+                });
+            }
+
+            if (tagsContainer) {
+                tagsContainer.innerHTML = '';
+                (order.tags || []).forEach(tag => {
+                    const tagEl = document.createElement('span');
+                    tagEl.className = 'tag';
+                    tagEl.textContent = tag;
+                    tagsContainer.appendChild(tagEl);
+                });
+            }
+
+            modal.classList.remove('hidden');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function closeOrderModal() {
+            const modal = document.getElementById('orderModal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function setupOrderModal() {
+            const closeButton = document.getElementById('closeOrderModal');
+            const backdrop = document.getElementById('orderModalBackdrop');
+            if (closeButton) {
+                closeButton.addEventListener('click', closeOrderModal);
+            }
+            if (backdrop) {
+                backdrop.addEventListener('click', closeOrderModal);
+            }
+
+            document.addEventListener('keydown', event => {
+                if (event.key === 'Escape') {
+                    const modal = document.getElementById('orderModal');
+                    if (modal && !modal.classList.contains('hidden')) {
+                        closeOrderModal();
+                    }
+                }
+            });
+        }
+
         function showSection(sectionName, trigger) {
             const sections = ['overview', 'live-chat', 'orders', 'reservations', 'templates', 'clients', 'analytics', 'settings'];
             sections.forEach(section => {
@@ -1667,7 +2128,7 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', () => {
             showSection('overview');
 
             const chartBars = document.querySelectorAll('.chart-bar');
@@ -1677,7 +2138,11 @@
                     bar.style.transform = 'scaleY(1)';
                 }, index * 100);
             });
+
+            initializeKanbanBoard();
+            setupOrderModal();
         });
     </script>
+
 </body>
 </html>
